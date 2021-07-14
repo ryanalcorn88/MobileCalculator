@@ -11,8 +11,7 @@ namespace MobileCalculator
 {
     public partial class MainPage : ContentPage
     {
-        List<string> currentSequence = new List<string>();
-        HashSet<char> numbers = new HashSet<char> { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+        HashSet<string> numbers = new HashSet<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
         HashSet<string> operations = new HashSet<string> { "+", "-", "×", "÷" };
 
         bool operationFlag = false;
@@ -31,7 +30,7 @@ namespace MobileCalculator
 
         private void displayClicks(string character)
         {
-            if(numbers.Contains(character[0]))
+            if(numbers.Contains(character))
             {
                 Debug.WriteLine("Number clicked");
                 Display.Text += character[0];
@@ -40,14 +39,17 @@ namespace MobileCalculator
             {
                 Debug.WriteLine("Clear clicked");
                 Display.Text = "";
-
-                if(currentSequence.Count > 0) currentSequence.Clear();
+                operationFlag = false;
             }
             else if(character.Equals("Solve"))
             {
                 Debug.WriteLine("Equals clicked");
-                Display.Text = runCalculation(Display.Text);
-                operationFlag = false;
+
+                if (canSolveProblem(Display.Text))
+                {
+                    Display.Text = runCalculation(Display.Text);
+                    operationFlag = false;
+                }
             }
             else if(!Display.Text.Equals("") && operations.Contains(character) && operationFlag == false)
             {
@@ -59,24 +61,30 @@ namespace MobileCalculator
             {
                 Debug.WriteLine("Multiple operations clicked");
 
-                string newDisplay = runCalculation(Display.Text);
-
-                if(!newDisplay.Equals(character))
+                if(canSolveProblem(Display.Text))
                 {
                     Display.Text = runCalculation(Display.Text) + " " + character + " ";
-
-                    currentSequence.Clear();
-                    currentSequence.Add(Display.Text);
-                    currentSequence.Add(character);
                 }
             }
         }
 
-        private string runCalculation(string currentSequence)
+        private bool canSolveProblem(string displayText)
         {
-            string[] sequence = currentSequence.Split(' ');
+            string newDisplay = runCalculation(displayText);
 
-            if (sequence.Length != 3 || sequence[2].Equals("")) return currentSequence;
+            if (!newDisplay.Equals(Display.Text))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private string runCalculation(string displayText)
+        {
+            string[] sequence = displayText.Split(' ');
+
+            if (sequence.Length != 3 || operations.Contains(sequence[2]) || sequence[2].Equals("")) return displayText;
 
             int outcome = 0;
 
@@ -92,7 +100,7 @@ namespace MobileCalculator
             {
                 outcome = Int32.Parse(sequence[0]) * Int32.Parse(sequence[2]);
             }
-            else if (sequence[1].Equals("÷"))
+            else if (sequence[1].Equals("÷") && !sequence[2].Equals("0"))
             {
                 outcome = Int32.Parse(sequence[0]) / Int32.Parse(sequence[2]);
             }
