@@ -36,7 +36,7 @@
         <Button Grid.Row="3" Grid.Column="3" Text="+" x:Name="Addition"></Button>
 
         <Button Grid.Row="4" Grid.Column="0" Text="0" x:Name="Zero"></Button>
-        <Button Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Text="Solve" x:Name="Equals"/>
+        <Button Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Text="Solve" x:Name="Solve"/>
         <Button Grid.Row="4" Grid.Column="3" Text="-" x:Name="Subtraction"></Button>
 
         <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Text="Clear" x:Name="Clear"/>
