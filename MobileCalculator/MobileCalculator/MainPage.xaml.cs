@@ -26,11 +26,13 @@ namespace MobileCalculator
                 b.Clicked += (sender, e) => { DisplayClicks(b.Text); };
             }
 
-            HistoryButton.Clicked += (sender, e) => PopupWindow(buttons);
-            HistoryTextArea.Text = "There is no history yet.";
+            HistoryButton.Clicked += (sender, e) => CallHistory(buttons);
         }
 
-        private void PopupWindow(List<Button> buttons)
+        /// <summary>
+        /// This function toggles the history label which will display the most recent problems solved on the calculator.
+        /// </summary>
+        private void CallHistory(List<Button> buttons)
         {
             HistoryTextArea.IsVisible = !HistoryTextArea.IsVisible;
             Display.IsVisible = !Display.IsVisible;

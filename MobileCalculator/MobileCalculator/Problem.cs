@@ -6,8 +6,10 @@ namespace MobileCalculator
 {
     /// <summary>
     /// This class contains elements to create a problem that can be solved by the calculator.
-    /// These elements include two numbers and an operation to be performed.
     /// </summary>
+    /// <remarks>
+    /// These elements include two numbers and an operation to be performed along with flags associated with them.
+    /// </remarks>
     public class Problem
     {
         public int FirstNumber { get; private set; }
