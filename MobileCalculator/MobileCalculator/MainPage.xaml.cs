@@ -13,6 +13,7 @@ namespace MobileCalculator
         readonly HashSet<string> numbers = new HashSet<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
         readonly HashSet<string> operations = new HashSet<string> { "+", "-", "×", "÷" };
         Problem currentProblem = new Problem();
+        Memory currentMemory = new Memory();
 
         public MainPage()
         {
@@ -23,6 +24,25 @@ namespace MobileCalculator
             foreach(Button b in buttons)
             {
                 b.Clicked += (sender, e) => { DisplayClicks(b.Text); };
+            }
+
+            HistoryButton.Clicked += (sender, e) => PopupWindow(buttons);
+            HistoryTextArea.Text = "There is no history yet.";
+        }
+
+        private void PopupWindow(List<Button> buttons)
+        {
+            HistoryTextArea.IsVisible = !HistoryTextArea.IsVisible;
+            Display.IsVisible = !Display.IsVisible;
+
+            if(HistoryTextArea.IsVisible)
+            {
+                HistoryTextArea.Text = currentMemory.DisplayProblems();
+            }
+
+            foreach(Button b in buttons)
+            {
+                b.IsVisible = !b.IsVisible;
             }
         }
 
@@ -51,13 +71,11 @@ namespace MobileCalculator
             }
             else if (character.Equals("Clear"))
             {
-                Debug.WriteLine("Clear clicked");
                 Display.Text = "";
                 currentProblem.ResetProblem();
             }
             else if (character.Equals("Solve"))
             {
-                Debug.WriteLine("Equals clicked");
                 SolveProblem();
             }
         }
@@ -71,6 +89,7 @@ namespace MobileCalculator
             if (currentProblem.OperationFlag && currentProblem.SecondNumberFlag)
             {
                 Display.Text = RunCalculation();
+                currentMemory.AddToList(currentProblem.FirstNumber, currentProblem.Operation, currentProblem.SecondNumber, Display.Text);
                 currentProblem.ResetProblem();
                 currentProblem.ChangeNumber(Display.Text);
             }
