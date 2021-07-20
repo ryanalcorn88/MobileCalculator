@@ -2,6 +2,7 @@
    Author: Ryan Alcorn
    Date Updated: 7-15-2021 */
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Xamarin.Forms;
