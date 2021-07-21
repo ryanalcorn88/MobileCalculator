@@ -15,10 +15,10 @@ namespace MobileCalculator
         /// <remarks>
         /// The list will only contain ten problems and remove the earliest problem if that limit is reached.
         /// </remarks>
-        public void AddToList(int firstNumber, string operation, int secondNumber, string currentSolution)
+        public void AddToList(string firstNumber, string operation, string secondNumber, string currentSolution)
         {
             string solution = currentSolution.Split(' ')[0];
-            string newProblem = firstNumber.ToString() + " " + operation + " " + secondNumber.ToString() + " = " + solution;
+            string newProblem = firstNumber + " " + operation + " " + secondNumber + " = " + solution;
 
             if(problems.Count < 10)
             {

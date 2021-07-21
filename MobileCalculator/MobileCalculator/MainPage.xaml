@@ -41,7 +41,8 @@
         <Button Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Text="Solve" x:Name="Solve"/>
         <Button Grid.Row="5" Grid.Column="3" Text="-" x:Name="Subtraction"></Button>
 
-        <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" Text="Clear" x:Name="Clear"/>
+        <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" Text="." x:Name="Dot"/>
+        <Button Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Text="Clear" x:Name="Clear"/>
 
         <Label IsVisible="False" Grid.Row="1" Grid.RowSpan="6" Grid.Column="0" Grid.ColumnSpan="4" x:Name="HistoryTextArea" FontSize="Large" HorizontalTextAlignment="Center"></Label>
     </Grid>

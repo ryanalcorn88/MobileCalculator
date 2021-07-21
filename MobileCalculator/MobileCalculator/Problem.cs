@@ -1,6 +1,6 @@
 ﻿/* Project: Mobile Calculator
    Author: Ryan Alcorn
-   Date Updated: 7-15-2021 */
+   Date Updated: 7-21-2021 */
 
 namespace MobileCalculator
 {
@@ -12,8 +12,8 @@ namespace MobileCalculator
     /// </remarks>
     public class Problem
     {
-        public int FirstNumber { get; private set; }
-        public int SecondNumber { get; private set; }
+        public string FirstNumber { get; private set; }
+        public string SecondNumber { get; private set; }
         public string Operation { get; private set; }
         public bool OperationFlag { get; private set; }
         public bool FirstNumberFlag { get; private set; }
@@ -43,18 +43,32 @@ namespace MobileCalculator
         /// This function changes one of the two numbers based on the flags that have been set so far.
         /// </summary>
         /// <remarks>
-        /// <param name="newNumber">newNumber: represents a number that helps build one of the two numbers used in the problem.</param>
+        /// <param name="newNumber">newNumber: represents a number/dot that helps build one of the two numbers used in the problem.</param>
         /// </remarks>
         public void ChangeNumber(string newNumber)
         {
             if (!OperationFlag)
             {
-                FirstNumber = FirstNumber == 0 ? int.Parse(newNumber) : int.Parse(FirstNumber.ToString() + newNumber);
+                if(newNumber.Equals(".") && !FirstNumber.Contains("."))
+                {
+                    FirstNumber += ".";
+                }
+                else if(!newNumber.Equals("."))
+                {
+                    FirstNumber = FirstNumber.Equals("0") ? newNumber : (FirstNumber + newNumber);
+                }
                 FirstNumberFlag = true;
             }
             else
             {
-                SecondNumber = SecondNumber == 0 ? int.Parse(newNumber) : int.Parse(SecondNumber.ToString() + newNumber);
+                if (newNumber.Equals(".") && !SecondNumber.Contains("."))
+                {
+                    SecondNumber += ".";
+                }
+                else if (!newNumber.Equals("."))
+                {
+                    SecondNumber = SecondNumber.Equals("0") ? newNumber : (SecondNumber.ToString() + newNumber);
+                }
                 SecondNumberFlag = true;
             }
         }
@@ -67,10 +81,10 @@ namespace MobileCalculator
         /// </returns>
         public string ChangeDisplayText()
         {
-            if (!OperationFlag) return FirstNumber.ToString();
-            if (OperationFlag && !SecondNumberFlag) return FirstNumber.ToString() + " " + Operation;
+            if (!OperationFlag) return FirstNumber;
+            if (OperationFlag && !SecondNumberFlag) return FirstNumber + " " + Operation;
 
-            return FirstNumber.ToString() + " " + Operation + " " + SecondNumber.ToString();
+            return FirstNumber + " " + Operation + " " + SecondNumber;
         }
 
         /// <summary>
@@ -78,8 +92,8 @@ namespace MobileCalculator
         /// </summary>
         public void ResetProblem()
         {
-            FirstNumber = 0;
-            SecondNumber = 0;
+            FirstNumber = "0";
+            SecondNumber = "0";
             Operation = "";
             OperationFlag = false;
             FirstNumberFlag = false;

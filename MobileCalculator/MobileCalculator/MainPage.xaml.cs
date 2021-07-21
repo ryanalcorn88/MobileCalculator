@@ -1,17 +1,16 @@
 ﻿/* Project: Mobile Calculator
    Author: Ryan Alcorn
-   Date Updated: 7-15-2021 */
+   Date Updated: 7-21-2021 */
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Xamarin.Forms;
 
 namespace MobileCalculator
 {
     public partial class MainPage : ContentPage
     {
-        readonly HashSet<string> numbers = new HashSet<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
+        readonly HashSet<string> numbers = new HashSet<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "." };
         readonly HashSet<string> operations = new HashSet<string> { "+", "-", "×", "÷" };
         Problem currentProblem = new Problem();
         Memory currentMemory = new Memory();
@@ -20,7 +19,8 @@ namespace MobileCalculator
         {
             InitializeComponent();
 
-            List<Button> buttons = new List<Button>() { One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Zero, Clear, Solve, Addition, Subtraction, Division, Multiplication };
+            List<Button> buttons = new List<Button>() { One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Zero, Clear, Solve,
+                                                        Addition, Subtraction, Division, Multiplication, Dot };
 
             foreach(Button b in buttons)
             {
@@ -104,23 +104,26 @@ namespace MobileCalculator
         /// <returns>returns a string representation of the solution of the problem</returns>
         private string RunCalculation()
         {
-            int outcome = 0;
+            double outcome = 0.0;
 
-            if(currentProblem.Operation.Equals("+"))
+            _ = double.TryParse(currentProblem.FirstNumber, out double num1);
+            _ = double.TryParse(currentProblem.SecondNumber, out double num2);
+
+            if (currentProblem.Operation.Equals("+"))
             {
-                outcome = currentProblem.FirstNumber + currentProblem.SecondNumber;
+                outcome = num1 + num2;
             }
             else if(currentProblem.Operation.Equals("-"))
             {
-                outcome = currentProblem.FirstNumber - currentProblem.SecondNumber;
+                outcome = num1 - num2;
             }
             else if (currentProblem.Operation.Equals("×"))
             {
-                outcome = currentProblem.FirstNumber * currentProblem.SecondNumber;
+                outcome = num1 * num2;
             }
-            else if (currentProblem.Operation.Equals("÷") && currentProblem.SecondNumber != 0)
+            else if (currentProblem.Operation.Equals("÷") && num2 != 0)
             {
-                outcome = currentProblem.FirstNumber / currentProblem.SecondNumber;
+                outcome = num1 / num2;
             }
 
             return outcome.ToString();
